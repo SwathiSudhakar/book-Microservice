@@ -17,13 +17,13 @@ pipeline {
                 echo 'Maven build Completed'
             }
         }
-    stage('JUnit Test') {
+    stage('JUnit Test and Report') {
             steps {
                 // Run unit tests
                 script {
                     try {
                         sh 'mvn clean test surefire-report:report' 
-                        //junit 'src/reports/*-jupiter.xml'
+                        junit allowEmptyResults: true, testResults: '*/target/surefire-reports/.xml'
                     } catch (err) {
                         currentBuild.result = 'FAILURE'
                         echo 'Unit tests failed!'
